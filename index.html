@@ -9,9 +9,8 @@
 </head>
 <body onload="init()">
     <div id="map" style="width:600px;height:600px"></div>
-    <h1>Geolocation API(watchPosition/clearWatch) Sample</h1>
-    <button onclick="start()">位置情報監視開始(watchPosition)</button>
-    <button onclick="stop()">位置情報監視停止(clearWatch)</button>
+    <button onclick="start()">位置情報取得開始(watchPosition)</button>
+    <button onclick="stop()">位置情報取得停止(clearWatch)</button>
     <div id="message"></div>
 
 <script>
@@ -60,13 +59,18 @@ function successCallback(position){
     
     map.setView([latitude, longitude], 15);
     
+    document.getElementById("message").innerHTML += arrayLat[0] + ":" + arrayLon[0] + " <br />";
+    
     if (arrayLat.length > 1){
-        var coordinateStrings = '[' + arrayLat[0] + ', ' + arrayLot[0] + ']'
+        var coordinateStrings = "[" + arrayLat[0] + ", " + arrayLon[0] + "]"
+        document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         for (let i = 1; i < arrayLat.length; i++){
-            coordinateStrings = ',[' + arrayLat[i] + ', ' + arrayLot[i] + ']'
+            coordinateStrings = ",[" + arrayLat[i] + ", " + arrayLon[i] + "]"
         }
+        document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         
         var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(mymap);
+        document.getElementById("message").innerHTML += coordinateStrings;
     }
 }
 
