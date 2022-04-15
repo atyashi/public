@@ -68,7 +68,7 @@ function successCallback(position){
         }
         document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         
-        var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(mymap);
+        var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(map);
     }
 }
 
