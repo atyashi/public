@@ -6,7 +6,23 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 <!-- Make sure you put this AFTER Leaflet's CSS -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-<script type="text/javascript">
+</head>
+<body onload="init()">
+    <div id="map" style="width:600px;height:600px"></div>
+    <h1>Geolocation API(watchPosition/clearWatch) Sample</h1>
+    <button onclick="start()">位置情報監視開始(watchPosition)</button>
+    <button onclick="stop()">位置情報監視停止(clearWatch)</button>
+    <div id="message"></div>
+
+<script>
+    //地図を表示するdiv要素のidを設定
+    var map = L.map('map');
+    //地図の中心とズームレベルを指定
+    map.setView([35.40, 136], 5);
+    //表示するタイルレイヤのURLとAttributionコントロールの記述を設定して、地図に追加する
+    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+    }).addTo(map);
 
 // 位置情報取得処理に渡すオプション
 var options = {
@@ -15,6 +31,9 @@ var options = {
     timeout: 120000
 }
 
+var arrayLat = [];
+var arrayLon = [];
+
 // 位置情報取得処理が成功した時にコールされる関数
 // 引数として、coords(coordinates。緯度・経度など)とtimestamp(タイムスタンプ)の2つを持ったpositionが渡される
 function successCallback(position){
@@ -22,6 +41,8 @@ function successCallback(position){
     var latitude         = position.coords.latitude;
     var longitude        = position.coords.longitude;
     
+    arrayLat.push(latitude);
+    arrayLon.push(longitude);
     
     // 緯度・経度の誤差(m) ★必ず取得できる
     var accuracy         = position.coords.accuracy;
@@ -37,7 +58,16 @@ function successCallback(position){
     document.getElementById("message").innerHTML += "緯度：" + latitude + " 度<br />";
     document.getElementById("message").innerHTML += "経度：" + longitude + " 度<br />";
     
-    map.setView([longitude, latitude], 15);
+    map.setView([latitude, longitude], 15);
+    
+    if (arrayLat.length > 1){
+        var coordinateStrings = '[' + arrayLat[0] + ', ' + arrayLot[0] + ']'
+        for (let i = 1; i < arrayLat.length; i++){
+            coordinateStrings = ',[' + arrayLat[i] + ', ' + arrayLot[i] + ']'
+        }
+        
+        var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(mymap);
+    }
 }
 
 // 位置情報取得処理が失敗した時にコールされる関数
@@ -116,23 +146,7 @@ function stop(){
     }
 }
 
-function init() {
-    //地図を表示するdiv要素のidを設定
-    var map = L.map('map');
-    //地図の中心とズームレベルを指定
-    map.setView([35.40, 136], 1);
-    //表示するタイルレイヤのURLとAttributionコントロールの記述を設定して、地図に追加する
-    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
-    }).addTo(map);
-}
 </script>
-</head>
-<body onload="init()">
-    <div id="map" style="width:600px;height:600px"></div>
-    <h1>Geolocation API(watchPosition/clearWatch) Sample</h1>
-    <button onclick="start()">位置情報監視開始(watchPosition)</button>
-    <button onclick="stop()">位置情報監視停止(clearWatch)</button>
-    <div id="message"></div>
+
 </body>
 </html>
