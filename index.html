@@ -57,20 +57,18 @@ function successCallback(position){
     document.getElementById("message").innerHTML += "緯度：" + latitude + " 度<br />";
     document.getElementById("message").innerHTML += "経度：" + longitude + " 度<br />";
     
-    map.setView([latitude, longitude], 18);
+    map.setView([latitude, longitude], 16);
     
     document.getElementById("message").innerHTML += arrayLat[0] + ":" + arrayLon[0] + " <br />";
     
     if (arrayLat.length > 1){
         var coordinateStrings = "[" + arrayLat[0] + ", " + arrayLon[0] + "]"
-        document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         for (let i = 1; i < arrayLat.length; i++){
-            coordinateStrings = ",[" + arrayLat[i] + ", " + arrayLon[i] + "]"
+            coordinateStrings += ",[" + arrayLat[i] + ", " + arrayLon[i] + "]"
         }
         document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         
         var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(mymap);
-        document.getElementById("message").innerHTML += coordinateStrings;
     }
 }
 
