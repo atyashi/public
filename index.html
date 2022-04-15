@@ -62,13 +62,15 @@ function successCallback(position){
     document.getElementById("message").innerHTML += arrayLat[0] + ":" + arrayLon[0] + " <br />";
     
     if (arrayLat.length > 1){
-        var coordinateStrings = "[" + arrayLat[0] + ", " + arrayLon[0] + "]"
-        for (let i = 1; i < arrayLat.length; i++){
-            coordinateStrings += ",[" + arrayLat[i] + ", " + arrayLon[i] + "]"
+        var coordinateStrings = [];
+        for (let i = 0; i < arrayLat.length; i++){
+            var array = [ arrayLat[i] ,arrayLon[i] ] ;
+            coordinateStrings.push ( array );
         }
         document.getElementById("message").innerHTML += coordinateStrings + " <br />";
         
-        var route = L.polyline([ coordinateStrings ], {color: "blue", weight: 6}).addTo(map);
+        var route = L.polyline(coordinateStrings, {color: "blue", weight: 6}).addTo(map);
+        //var route = L.polyline([ [35.8711296, 139.9259136],[35.8711296, 139.9259136] ], {color: "blue", weight: 6}).addTo(map);
     }
 }
 
