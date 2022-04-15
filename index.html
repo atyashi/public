@@ -37,7 +37,7 @@ function successCallback(position){
     document.getElementById("message").innerHTML += "緯度：" + latitude + " 度<br />";
     document.getElementById("message").innerHTML += "経度：" + longitude + " 度<br />";
     
-    map.setView([latitude, longitude], 18);
+    map.setView([longitude, latitude], 15);
 }
 
 // 位置情報取得処理が失敗した時にコールされる関数
@@ -73,7 +73,11 @@ function errorCallback(positionError){
     
     document.getElementById("message").innerHTML += message + "<br /><br />";
 } 
-  
+
+function setPoint(longitude, latitude){
+    
+}
+    
 // watchPosition()の戻り値。この戻り値をclearWatch()に渡すことでwatch(監視)を停止させる。
 var watchId = null;
 
@@ -116,7 +120,7 @@ function init() {
     //地図を表示するdiv要素のidを設定
     var map = L.map('map');
     //地図の中心とズームレベルを指定
-    map.setView([35.40, 136], 18);
+    map.setView([35.40, 136], 1);
     //表示するタイルレイヤのURLとAttributionコントロールの記述を設定して、地図に追加する
     L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
         attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
