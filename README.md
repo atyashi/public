@@ -4,3 +4,5 @@
 ※歩きスマホはやめましょう
 
 https://atyashi.github.io/public/
+
+AWSのAPI Gateway⇒Lambda⇒DynamoDBに移植中
